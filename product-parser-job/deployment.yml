@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: product-parser-job
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Allow
+  suspend: false
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 60
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: product-parser-job
+              image: ufukhalis/product-parser-job
+              imagePullPolicy: Always
+          restartPolicy: OnFailure
